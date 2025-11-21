@@ -1,144 +1,176 @@
-# 🧩 SQL Organization Project
+# 🏢 SQL Organization Database Project
 
-## 🧠 Overview
-This project, **SQL Organization Project**, is a comprehensive collection of **50 SQL queries** written to analyze employee and organizational data.  
-It covers everything from **basic data retrieval** to **advanced analytical operations** using functions like `JOIN`, `GROUP BY`, `DENSE_RANK()`, and `WINDOW FUNCTIONS`.  
-
-The project is ideal for learning and demonstrating SQL skills used in **Data Analytics**, **Business Intelligence**, and **Database Management**.
+This project contains a collection of SQL queries written to explore, analyze, and manage data from an organizational database consisting of **Worker**, **Bonus**, and **Title** tables.  
+It demonstrates SQL skills including filtering, joins, grouping, subqueries, window functions, string functions, and DDL operations.
 
 ---
 
-## 🗃️ Database Description
-The project operates on a sample database named **`org`**, which contains key tables such as:
-- **Worker** – Stores employee details (name, department, salary, joining date)
-- **Title** – Holds worker titles and their start dates
-- **Bonus** – Maintains employee bonus records
+## 🎯 Project Objective
+
+The objective of this SQL project is to practice and demonstrate strong foundational and intermediate SQL skills by working on a sample organization's employee database.  
+This includes:
+
+- Writing real-world SQL queries  
+- Performing data analysis using SELECT statements  
+- Using aggregate and string functions  
+- Working with JOINS  
+- Applying window functions  
+- Handling subqueries  
+- Cloning tables  
+- Fetching top-N results  
+- Performing date-based filtering  
 
 ---
 
-## 🎯 Objectives
-- Strengthen SQL fundamentals through practical business queries.  
-- Understand and apply **data manipulation and filtering techniques**.  
-- Perform **text processing, aggregation, and pattern matching**.  
-- Implement **ranking, analytical, and window functions** for insights.  
-- Analyze **departmental, salary, and employee trends** using SQL.
+## 🗂️ Database Structure
+
+This project uses three main tables:
+
+### **1. Worker Table**
+Contains employee-level information.
+
+| Column Name | Description |
+|------------|-------------|
+| WORKER_ID | Unique worker ID |
+| FIRST_NAME | Employee first name |
+| LAST_NAME | Employee last name |
+| SALARY | Employee salary |
+| JOINING_DATE | Date employee joined |
+| DEPARTMENT | Department of the employee |
+
+### **2. Title Table**
+Contains role/title details for workers.
+
+| Column Name | Description |
+|------------|-------------|
+| WORKER_REF_ID | Reference to WORKER_ID |
+| WORKER_TITLE | Job title (e.g., Manager) |
+| AFFECTED_FROM | Date title became effective |
+
+### **3. Bonus Table**
+Contains bonus information.
+
+| Column Name | Description |
+|------------|-------------|
+| WORKER_REF_ID | Reference to WORKER_ID |
+| BONUS_AMOUNT | Bonus amount |
+| BONUS_DATE | Date bonus was given |
 
 ---
 
-## 📚 Topics Covered
-The 50 queries are grouped into categories for better understanding:
+## 🧠 SQL Concepts Demonstrated
 
-| Category | Description | Example Queries |
-|-----------|--------------|-----------------|
-| **1️⃣ Basic SQL** | Selecting, filtering, and aliasing data | Q1–Q5 |
-| **2️⃣ String Functions** | Using `SUBSTRING`, `REPLACE`, `LTRIM`, `RTRIM`, `POSITION`, `UPPER` | Q4–Q9 |
-| **3️⃣ Data Formatting & Concatenation** | Combining columns using `CONCAT`, trimming, aliasing | Q10 |
-| **4️⃣ Sorting & Filtering** | Ordering data, using conditions (`LIKE`, `BETWEEN`, `IN`, `NOT IN`) | Q11–Q18 |
-| **5️⃣ Conditional Queries** | Salary and department-based filtering | Q19–Q23 |
-| **6️⃣ Joins & Relationships** | Inner joins and left joins between Worker, Title, and Bonus | Q24, Q29, Q38 |
-| **7️⃣ Aggregations** | Using `COUNT`, `SUM`, `AVG`, `GROUP BY`, `HAVING` | Q21, Q23, Q40–Q41, Q49 |
-| **8️⃣ Table Operations** | Cloning, duplicating, creating temporary tables | Q28 |
-| **9️⃣ Ranking & Window Functions** | Finding top salaries using `DENSE_RANK()` | Q33–Q36, Q45–Q48 |
-| **🔟 Miscellaneous Queries** | Current time, Nth records, duplicates, and limits | Q31–Q50 |
+This project covers a wide range of SQL operations:
+
+### ✔ **String Functions**
+- UPPER(), SUBSTRING(), REPLACE(), LTRIM(), RTRIM(), LENGTH()
+
+### ✔ **Filtering & Searching**
+- LIKE operators  
+- BETWEEN  
+- IN / NOT IN  
+- Conditional filtering  
+
+### ✔ **Sorting & Ordering**
+- ORDER BY (ASC/DESC)
+
+### ✔ **Aggregate Functions**
+- COUNT(), SUM(), DISTINCT, GROUP BY, HAVING
+
+### ✔ **JOIN Operations**
+- INNER JOIN  
+- LEFT JOIN  
+- Identifying unmatched records  
+
+### ✔ **Window Functions**
+- DENSE_RANK()  
+- Ranking salaries  
+- Finding Nth highest salary  
+
+### ✔ **Subqueries**
+- Nested SELECTs for max salary, filtering, top records
+
+### ✔ **Table Operations**
+- Cloning tables  
+- Creating new tables from existing ones  
+- Fetching odd/even rows  
 
 ---
 
-## 🔍 Highlight Queries & Concepts
+## 📘 Query Categories (Included in Project)
 
-### 🧱 **Basic Retrieval and Aliasing**
-```sql
--- Fetch first names with alias WORKER_NAME
-SELECT FIRST_NAME AS WORKER_NAME
-FROM Worker;
-🔤 String Manipulation
-sql
-Copy code
--- Print first 3 characters of worker names
-SELECT SUBSTRING(FIRST_NAME, 1, 3) AS THREE_CHAR
-FROM Worker;
+The SQL file includes **50 real interview-oriented SQL questions**, such as:
 
--- Replace 'a' with 'K' in names
-SELECT FIRST_NAME, REPLACE(FIRST_NAME, 'a', 'K') AS replaced
-FROM Worker;
-📅 Date and Range Filtering
-sql
-Copy code
--- Employees who joined in February 2014
-SELECT FIRST_NAME, JOINING_DATE
-FROM Worker
-WHERE YEAR(JOINING_DATE) = 2014
-  AND MONTH(JOINING_DATE) = 2;
-💰 Salary Analysis
-sql
-Copy code
--- Workers earning between 100000 and 500000
-SELECT FIRST_NAME, SALARY
-FROM Worker
-WHERE SALARY BETWEEN 100000 AND 500000;
+### 🔹 **Basic SELECT and Filtering**
+- Fetch first names with alias  
+- Convert names to uppercase  
+- Extract unique departments  
 
--- Highest salary in each department using DENSE_RANK
-SELECT *
-FROM (
-    SELECT FIRST_NAME, DEPARTMENT, SALARY,
-           DENSE_RANK() OVER (PARTITION BY DEPARTMENT ORDER BY SALARY DESC) AS drnk
-    FROM Worker
-) AS t
-WHERE drnk = 1;
-🧮 Aggregation & Grouping
-sql
-Copy code
--- Number of employees in each department
-SELECT DEPARTMENT, COUNT(*) AS No_Of_Workers
-FROM Worker
-GROUP BY DEPARTMENT;
+### 🔹 **String Manipulation**
+- Extract first 3 characters  
+- Replace characters  
+- Find position of specific letters  
 
--- Departments with less than 5 employees
-SELECT DEPARTMENT
-FROM Worker
-GROUP BY DEPARTMENT
-HAVING COUNT(*) < 5;
-🔗 Joins and Relationships
-sql
-Copy code
--- Workers who are also managers
-SELECT *
-FROM Worker AS W
-INNER JOIN Title AS T
-ON W.WORKER_ID = T.WORKER_REF_ID
-WHERE WORKER_TITLE = 'MANAGER';
-🪜 Window Functions & Ranking
-sql
-Copy code
--- Fetch 5th highest salary without using LIMIT
-SELECT *
-FROM (
-    SELECT *, DENSE_RANK() OVER (ORDER BY SALARY DESC) AS drnk
-    FROM Worker
-) AS t
-WHERE drnk = 5;
-🧩 Key Learnings
-✅ Improved understanding of SQL syntax and logic
-✅ Mastered data filtering, grouping, and ordering techniques
-✅ Learned string and date manipulations
-✅ Applied ranking and window functions for analytics
-✅ Developed an analytical mindset to solve business problems using SQL
+### 🔹 **Sorting & Ordering**
+- Sort by first name  
+- Sort by department descending  
 
-🚀 How to Run the Project
+### 🔹 **Date-Based Filtering**
+- Employees who joined in Feb 2014  
+- Fetch current date and time  
 
-1.Create a database named org in your SQL environment.
-2.Run each query sequentially in your SQL editor.
-3.Ensure Worker, Title, and Bonus tables exist (or use dummy data).
-4.View outputs and modify queries to experiment and learn.
+### 🔹 **Salary Analysis**
+- Employee with highest salary  
+- Nth highest salary (with and without LIMIT)  
+- Duplicate salaries  
+- Salary ranges  
 
-🧠 Use Cases
+### 🔹 **Department-Level Analysis**
+- Count employees per department  
+- Departments with fewer than 5 employees  
 
-HR Analytics: Employee salaries, department size, and promotions.
-Data Cleaning: Removing duplicates, trimming text, and formatting.
-Business Insights: Identify top performers and underpaid roles.
-Interview Prep: Covers 90% of SQL questions asked in analytics roles.
+### 🔹 **Joins & Integrity**
+- Workers who are managers  
+- Workers without bonuses  
+- Intersecting records  
 
-🏆 Learning Outcomes
+### 🔹 **Window Functions**
+- Dense Rank to get top salaries per department  
+- Second highest salary  
+- Nth max salary using OFFSET  
 
-Solid foundation in SQL querying and problem-solving.
-Ability to handle real-world data manipulation and reporting.
-Ready to tackle Data Analyst and SQL interview challenges.
+---
+
+## 📁 Files Included
+
+| File Name | Description |
+|----------|-------------|
+| **SQL Org project.sql** | Contains all 50 SQL questions & solutions :contentReference[oaicite:0]{index=0} |
+| **worker.csv** | Worker table data |
+| **title.csv** | Title table data |
+| **bonus.csv** | Bonus table data |
+
+---
+
+## 🛠️ Tools Used
+
+- **MySQL / SQL Server / PostgreSQL** (compatible)  
+- **Workbench / DBeaver / pgAdmin**  
+- CSV datasets for importing tables  
+
+---
+
+## 📌 Conclusion
+
+This SQL project showcases a strong command of SQL fundamentals and intermediate concepts by working on a structured organizational dataset.  
+It demonstrates real-world problem-solving skills including filtering, joins, window functions, aggregations, subqueries, and table operations.
+
+This repository is a great reference for **SQL interviews**, practice, and portfolio showcase.
+
+---
+
+## 👤 Author  
+**Roopesh**  
+SQL | Data Analysis | Database Management
+
+
